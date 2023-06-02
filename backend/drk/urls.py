@@ -15,22 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.http import HttpResponse, JsonResponse
 from django.urls import path
-from keycloak import KeycloakOpenID
 
-KEYCLOAK_OPENID = KeycloakOpenID(server_url="http://localhost:8080/",
-                   client_id="backend",
-                   realm_name="master",
-                   client_secret_key="secret")
-def some_view(request):
-    token = request.headers.get("Authorization")
-    if not token:
-        return HttpResponse("Unathorized", status=401)
-    bearer, token = token.split(" ")
-    return JsonResponse(data=KEYCLOAK_OPENID.userinfo(token))
+from drk.views import SampleResource
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", some_view)
+    path(r"", SampleResource.as_view({"get": "list"})),
 ]

@@ -1,3 +1,7 @@
+networks:
+  test_network:
+    driver: bridge
+
 services:
   api:
     build: ./backend
@@ -6,6 +10,8 @@ services:
     volumes:
       - ./backend:/api
     command: bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
+    networks:
+      - test_network
   web:
     build: ./frontend
     ports:
@@ -14,6 +20,11 @@ services:
       - ./frontend:/front
       - /front/node_modules
     command: bash -c "npm run dev-docker"
+    networks:
+      - test_network
+    environment:
+      API_URL: host.docker.internal:8000
+      KEYCLOAK_URL: host.docker.internal:8080
   keycloak:
     image: quay.io/keycloak/keycloak:21.1.1
     ports:
@@ -23,3 +34,5 @@ services:
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
+    networks:
+      - test_network
