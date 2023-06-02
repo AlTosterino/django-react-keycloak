@@ -1,0 +1,25 @@
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/api
+    command: bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
+  web:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/front
+      - /front/node_modules
+    command: bash -c "npm run dev-docker"
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    ports:
+      - "8080:8080"
+    command:
+      - start-dev
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin

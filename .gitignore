@@ -1,0 +1,4 @@
+.python-version
+frontend/node_modules
+backend/db.sqlite3
+.idea

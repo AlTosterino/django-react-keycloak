@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "drk"
+version = "0.1.0"
+description = "PoC of Django + React integration with KeyCloack"
+authors = ["AlTosterino"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.1"
+djangorestframework = "^3.14.0"
+python-keycloak = "^2.16.3"
+django-cors-headers = "^4.0.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+ruff = "^0.0.270"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
